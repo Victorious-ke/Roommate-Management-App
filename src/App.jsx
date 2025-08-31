@@ -12,9 +12,9 @@ import ChoreList from './components/ChoreList';
 import ChoreForm from './components/ChoreForm';
 import RoomMates from './components/RoomMates';
 import Events from './components/Events';
+import './styles/theme.css';
 
-// Use the environment variable for the API URL
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 function App() {
   const [chores, setChores] = useState([]);
@@ -48,25 +48,27 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      <Routes>
-        <Route path="/" element={<Home chores={chores} roommates={roommates} />} />
-        <Route 
-          path="/chores" 
-          element={<ChoreList chores={chores} roommates={roommates} />} 
-        />
-        <Route 
-          path="/chores/new" 
-          element={<ChoreForm roommates={roommates} onAddChore={handleAddChore} />} 
-        />
-        <Route 
-          path="/roommates" 
-          element={<RoomMates roommates={roommates} />} 
-        />
-        <Route 
-          path="/events" 
-          element={<Events events={events} roommates={roommates} />} 
-        />
-      </Routes>
+      <div className="page-container">
+        <Routes>
+          <Route path="/" element={<Home chores={chores} roommates={roommates} />} />
+          <Route 
+            path="/chores" 
+            element={<ChoreList chores={chores} roommates={roommates} />} 
+          />
+          <Route 
+            path="/chores/new" 
+            element={<ChoreForm roommates={roommates} onAddChore={handleAddChore} />} 
+          />
+          <Route 
+            path="/roommates" 
+            element={<RoomMates roommates={roommates} />} 
+          />
+          <Route 
+            path="/events" 
+            element={<Events events={events} roommates={roommates} />} 
+          />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }
