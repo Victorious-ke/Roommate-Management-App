@@ -4,72 +4,88 @@ It renders other components (Home, ChoreList, ChoreForm, RoomMates, Events) as c
 It will hold the main application state (e.g., the chores and roommates data) and pass it down to its children via props.
 The state-updating function (e.g., addChore) will be defined here and passed down to ChoreForm. */
 
-import { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import ChoreList from './components/ChoreList';
 import ChoreForm from './components/ChoreForm';
 import RoomMates from './components/RoomMates';
 import Events from './components/Events';
-import './styles/theme.css';
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+import SideBar from './components/SideBar';
+import './styles/theme.css'; 
 
 function App() {
   const [chores, setChores] = useState([]);
   const [roommates, setRoommates] = useState([]);
   const [events, setEvents] = useState([]);
+  const [loggedInUser, setLoggedInUser] = useState(null); // Simulated login state
 
   useEffect(() => {
-    // Fetch chores
-    fetch(`${API_URL}/chores`)
-      .then(res => res.json())
-      .then(data => setChores(data))
-      .catch(error => console.error("Error fetching chores:", error));
+    // Simulate fetching data from a backend
+    const fetchChores = async () => {
+      const data = [
+        { id: 1, title: 'Clean the kitchen', assignedTo: 1, dueDate: '2024-10-26', completed: false },
+        { id: 2, title: 'Take out the trash', assignedTo: 2, dueDate: '2024-10-27', completed: true },
+        { id: 3, title: 'Mow the lawn', assignedTo: 3, dueDate: '2024-10-28', completed: false },
+        { id: 4, title: 'Water the plants', assignedTo: 4, dueDate: '2024-10-29', completed: false },
+      ];
+      setChores(data);
+    };
 
-    // Fetch roommates
-    fetch(`${API_URL}/roommates`)
-      .then(res => res.json())
-      .then(data => setRoommates(data))
-      .catch(error => console.error("Error fetching roommates:", error));
+    const fetchRoommates = async () => {
+      const data = [
+        { id: 1, name: 'Beatrice Wambui' },
+        { id: 2, name: 'Praxcedes Kabeya' },
+        { id: 3, name: 'Laban Mugutu' },
+        { id: 4, name: 'Victorious Ngaruiya' },
+      ];
+      setRoommates(data);
+    };
 
-    // Fetch events
-    fetch(`${API_URL}/events`)
-      .then(res => res.json())
-      .then(data => setEvents(data))
-      .catch(error => console.error("Error fetching events:", error));
+    const fetchEvents = async () => {
+      const data = [
+        { id: 1, title: 'House party', assignedTo: 1, date: '2024-11-15' },
+        { id: 2, title: 'Game night', assignedTo: 2, date: '2024-11-20' },
+      ];
+      setEvents(data);
+    };
+
+    fetchChores();
+    fetchRoommates();
+    fetchEvents();
+
+    // Simulate a logged-in user
+    setLoggedInUser({ name: 'Beatrice Wambui' });
   }, []);
 
-  const handleAddChore = (newChore) => {
-    setChores([...chores, newChore]);
+  const addChore = (newChore) => {
+    setChores([...chores, { ...newChore, id: Date.now() }]);
+  };
+
+  const handleLogout = () => {
+    setLoggedInUser(null);
   };
 
   return (
-    <BrowserRouter>
-      <NavBar />
-      <div className="page-container">
-        <Routes>
-          <Route path="/" element={<Home chores={chores} roommates={roommates} />} />
-          <Route 
-            path="/chores" 
-            element={<ChoreList chores={chores} roommates={roommates} />} 
-          />
-          <Route 
-            path="/chores/new" 
-            element={<ChoreForm roommates={roommates} onAddChore={handleAddChore} />} 
-          />
-          <Route 
-            path="/roommates" 
-            element={<RoomMates roommates={roommates} />} 
-          />
-          <Route 
-            path="/events" 
-            element={<Events events={events} roommates={roommates} />} 
-          />
-        </Routes>
+    <Router>
+      <div className="app-layout">
+        <SideBar chores={chores} />
+        <main className="main-content">
+          <NavBar user={loggedInUser} onLogout={handleLogout} />
+          <div className="page-container">
+            <Routes>
+              <Route path="/" element={<Home chores={chores} roommates={roommates} events={events} />} />
+              <Route path="/chores" element={<ChoreList chores={chores} roommates={roommates} />} />
+              <Route path="/chores/new" element={<ChoreForm roommates={roommates} addChore={addChore} />} />
+              <Route path="/roommates" element={<RoomMates roommates={roommates} />} />
+              <Route path="/events" element={<Events events={events} roommates={roommates} />} />
+            </Routes>
+          </div>
+        </main>
       </div>
-    </BrowserRouter>
+    </Router>
   );
 }
 
