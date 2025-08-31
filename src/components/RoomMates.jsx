@@ -14,13 +14,16 @@ for this project, it can be a simple standalone component. */
 import React from 'react';
 
 const RoomMates = ({ roommates }) => {
+  if (!roommates || roommates.length === 0) {
+    return <p className="page-title">No roommates to display.</p>;
+  }
   return (
     <div>
       <h2 className="page-title">Roommates</h2>
       <ul>
         {roommates.map(roommate => (
           <li key={roommate.id} className="chore-item">
-            {roommate.name}
+            <p>{roommate.name}</p>
           </li>
         ))}
       </ul>
@@ -29,3 +32,4 @@ const RoomMates = ({ roommates }) => {
 };
 
 export default RoomMates;
+
