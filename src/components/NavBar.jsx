@@ -8,20 +8,18 @@ It will appear on all pages and is not a parent to any of the other main compone
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const NavBar = () => {
+const NavBar = ({ user, onLogout }) => {
   return (
     <nav className="navbar">
       <span>Roommate Management App</span>
-      <div>
-        <Link to="/">Home</Link>
-        <Link to="/chores">Chores</Link>
-        <Link to="/chores/new">Add Chore</Link>
-        <Link to="/roommates">Roommates</Link>
-        <Link to="/events">Events</Link>
-      </div>
+      {user && (
+        <div className="user-info">
+          <span>Welcome, {user.name}</span>
+          <button onClick={onLogout} className="logout-button">Logout</button>
+        </div>
+      )}
     </nav>
   );
 };
 
 export default NavBar;
-
