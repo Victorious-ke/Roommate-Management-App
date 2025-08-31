@@ -12,19 +12,18 @@ It makes the GET request for all chores and maps over the data to render a list 
  */
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import ChoreItem from './ChoreItem';
 
 const ChoreList = ({ chores, roommates }) => {
-  // Map over the chores array and render a ChoreItem for each one
-  const renderedChores = chores.map(chore => (
-    <ChoreItem key={chore.id} chore={chore} roommates={roommates} />
-  ));
-
-   return (
+  return (
     <div>
-      <h2 className="page-title">Chore List</h2>
+      <h2 className="page-title">Chores</h2>
+      <Link to="/chores/new" className="chore-form-link">Add New Chore</Link>
       <ul className="chore-list">
-        {renderedChores}
+        {chores.map(chore => (
+          <ChoreItem key={chore.id} chore={chore} roommates={roommates} />
+        ))}
       </ul>
     </div>
   );
