@@ -13,22 +13,29 @@ Displays a list of events. Like RoomMates.jsx, it can be a simple standalone com
 import React from 'react';
 
 const Events = ({ events, roommates }) => {
+  if (!events || !Array.isArray(events)) {
+    return <div className="page-container">No events found.</div>;
+  }
+
   return (
-    <div>
+    <div className="page-container">
       <h2 className="page-title">Events</h2>
       <ul>
-        {events.map(event => {
-          // Find the roommate who created the event
-          const assignedRoommate = roommates.find(r => r.id === event.assignedTo);
-          const assignedName = assignedRoommate ? assignedRoommate.name : 'Unassigned';
-          return (
-            <li key={event.id} className="chore-item">
-              <h3>{event.title}</h3>
-              <p>Assigned to: **{assignedName}**</p>
-              <p>Date: {new Date(event.date).toLocaleDateString()}</p>
-            </li>
-          );
-        })}
+        {events.length > 0 ? (
+          events.map(event => {
+            const assignedRoommate = roommates.find(r => r.id === event.assignedTo);
+            const assignedName = assignedRoommate ? assignedRoommate.name : 'Unassigned';
+            return (
+              <li key={event.id} className="chore-item">
+                <h3>{event.title}</h3>
+                <p>Assigned to: <strong>{assignedName}</strong></p>
+                <p>Date: {new Date(event.date).toLocaleDateString()}</p>
+              </li>
+            );
+          })
+        ) : (
+          <p>There are no events scheduled.</p>
+        )}
       </ul>
     </div>
   );
