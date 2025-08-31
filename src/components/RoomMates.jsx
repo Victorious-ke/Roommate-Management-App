@@ -7,8 +7,25 @@
 GET /roommates: This is the main endpoint for this component. It would fetch the list of all roommates. */
 
 /** (Child of App.jsx)
-
 Renders when the route is /roommates.
-
 Displays a list of all roommates. It may contain a child component for a single roommate, but 
 for this project, it can be a simple standalone component. */
+
+import React from 'react';
+
+const RoomMates = ({ roommates }) => {
+  return (
+    <div>
+      <h2 className="page-title">Roommates</h2>
+      <ul>
+        {roommates.map(roommate => (
+          <li key={roommate.id} className="chore-item">
+            {roommate.name}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default RoomMates;
