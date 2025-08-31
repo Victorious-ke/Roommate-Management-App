@@ -11,70 +11,84 @@ Renders when the route is /chores/new.
 It has no children from this component list. It's a standalone form that handles the POST request.*/
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-// Use the environment variable for the API URL
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const ChoreForm = ({ roommates, onAddChore }) => {
+  const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [assignedTo, setAssignedTo] = useState('');
+  const [dueDate, setDueDate] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!title || !assignedTo || !dueDate) {
+      alert('Please fill out all fields.');
+      return;
+    }
+
     const newChore = {
-      title: title,
-      assignedTo: assignedTo,
+      title,
+      assignedTo: parseInt(assignedTo),
+      dueDate,
+      status: 'pending',
       completed: false,
-      status: "Pending",
-      dueDate: new Date().toISOString(),
-      createdAt: new Date().toISOString(),
     };
 
-    fetch(`${API_URL}/chores`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newChore),
-    })
-    .then(res => res.json())
-    .then(data => {
-      onAddChore(data);
+    try {
+      const response = await fetch(`${API_URL}/chores`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newChore),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add chore');
+      }
+
+      const addedChore = await response.json();
+      onAddChore(addedChore);
+
       setTitle('');
       setAssignedTo('');
-    })
-    .catch(error => console.error("Error adding new chore:", error));
+      setDueDate('');
+
+      navigate('/chores');
+    } catch (error) {
+      console.error('Error adding chore:', error);
+      alert('Failed to add chore. Please try again.');
+    }
   };
 
   return (
-    <div>
-      <h2>Add a New Chore</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Chore Title:</label>
-        <input 
-          type="text" 
-          id="title" 
-          value={title} 
-          onChange={(e) => setTitle(e.target.value)} 
-          required 
-        />
-        <br />
-        <label htmlFor="assignedTo">Assign To:</label>
-        <select 
-          id="assignedTo" 
-          value={assignedTo} 
-          onChange={(e) => setAssignedTo(e.target.value)} 
+    <div className="page-container">
+      <h2 className="page-title">Add New Chore</h2>
+      <form onSubmit={handleSubmit} className="chore-form">
+        <input
+          type="text"
+          placeholder="Chore Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           required
-        >
-          <option value="">Select a roommate</option>
+        />
+        <select value={assignedTo} onChange={(e) => setAssignedTo(e.target.value)} required>
+          <option value="">Assign to...</option>
           {roommates.map(roommate => (
             <option key={roommate.id} value={roommate.id}>
               {roommate.name}
             </option>
           ))}
         </select>
-        <br />
+        <input
+          type="date"
+          value={dueDate}
+          onChange={(e) => setDueDate(e.target.value)}
+          required
+        />
         <button type="submit">Add Chore</button>
       </form>
     </div>
