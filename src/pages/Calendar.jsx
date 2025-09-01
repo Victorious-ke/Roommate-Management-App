@@ -10,3 +10,8 @@ export default function Calendar() {
   const [selectedEvent, setSelectedEvent] = useState(null); // clicked event
   const [selectedDate, setSelectedDate] = useState(null);   // clicked date
   const [isModalOpen, setIsModalOpen] = useState(false);    // modal toggle
+// 🔹 Fetch all events from db.json (via json-server)
+  const fetchEvents = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/events");
+      const data = await res.json();
