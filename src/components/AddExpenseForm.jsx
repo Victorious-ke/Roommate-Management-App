@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useBills } from "../context/BillsProvider";
+
 export default function AddExpenseForm() {
   const { roommates, addExpense } = useBills();
   const [title, setTitle] = useState("");
@@ -26,17 +29,14 @@ export default function AddExpenseForm() {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white shadow-md rounded-2xl p-6 space-y-4 w-full max-w-md mx-auto"
-    >
-      <h2 className="text-xl font-semibold text-gray-700 mb-2">Add Expense</h2>
+    <form onSubmit={handleSubmit} className="card">
+      <h2 className="card-title">Add Expense</h2>
 
       <input
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Expense title"
-        className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300"
+        className="form-input"
       />
 
       <input
@@ -47,13 +47,13 @@ export default function AddExpenseForm() {
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
         placeholder="Amount"
-        className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300"
+        className="form-input"
       />
 
       <select
         value={paidBy}
         onChange={(e) => setPaidBy(e.target.value)}
-        className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300"
+        className="form-input"
       >
         {roommates.map((r) => (
           <option key={r.id} value={r.id}>
@@ -66,20 +66,17 @@ export default function AddExpenseForm() {
         type="date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
-        className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300"
+        className="form-input"
       />
 
       <input
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
         placeholder="Notes (optional)"
-        className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300"
+        className="form-input"
       />
 
-      <button
-        type="submit"
-        className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-      >
+      <button type="submit" className="btn">
         Add Expense
       </button>
     </form>
