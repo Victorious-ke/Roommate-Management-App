@@ -366,3 +366,55 @@ input:checked + .slider:before {
   color: var(--insta-pink);
   margin-top: 1rem;
 }
+
+.chore-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 500px;
+  margin: 0 auto 2rem;
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chore-form-container input,
+.chore-form-container select {
+  padding: 0.75rem;
+  border: 1px solid var(--insta-purple);
+  border-radius: 8px;
+  outline: none;
+  font-size: 1rem;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.chore-form-container button {
+  background: var(--insta-gradient);
+  color: var(--text-secondary);
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: opacity 0.3s ease;
+}
+
+.chore-form-container button:hover {
+  opacity: 0.9;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
