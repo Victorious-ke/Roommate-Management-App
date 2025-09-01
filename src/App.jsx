@@ -1,4 +1,5 @@
 // src/App.jsx
+import "./App.css";
 import { Routes, Route, Link } from "react-router-dom";
 import { BillsProvider } from "./context/BillsProvider";
 import Home from "./pages/Home";
@@ -6,8 +7,6 @@ import AddExpense from "./pages/AddExpense";
 import Summary from "./pages/Summary";
 import Expenses from "./pages/Expenses";
 import NotFound from "./pages/NotFound";
-import "./App.css";
-
 
 export default function App() {
   return (
