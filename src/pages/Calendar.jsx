@@ -15,3 +15,19 @@ export default function Calendar() {
     try {
       const res = await fetch("http://localhost:3000/events");
       const data = await res.json();
+      // Convert backend data into FullCalendar format
+      const formatted = data.map((ev) => ({
+        id: ev.id,
+        title: ev.title,
+        description: ev.description,
+        start: ev.startTime,
+        end: ev.endTime,
+        relatedChoreId: ev.relatedChoreId || null,
+        relatedBillId: ev.relatedBillId || null,
+      }));
+
+      setEvents(formatted);
+    } catch (err) {
+      console.error(" Failed to fetch events:", err);
+    }
+  };
