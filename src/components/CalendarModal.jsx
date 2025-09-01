@@ -21,3 +21,14 @@ export default function CalendarModal({ event, date, onClose, refreshEvents }) {
         .then((data) => setRelatedBill(data));
     }
   }, [event]);
+// 🔹 Delete event
+  const handleDelete = async () => {
+    if (!event) return;
+    if (!window.confirm("Are you sure you want to delete this event?")) return;
+
+    await fetch(`http://localhost:3000/events/${event.id}`, {
+      method: "DELETE",
+    });
+    refreshEvents();
+    onClose();
+  };
