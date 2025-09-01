@@ -25,14 +25,17 @@
       "avatar": "/vic.png"
     }
   ],
-  
   "events": [
     {
       "id": "301",
       "title": "Grocery Shopping",
       "description": "Buy food for the week",
       "createdBy": "3",
-      "participants": ["1", "2", "3"],
+      "participants": [
+        "1",
+        "2",
+        "3"
+      ],
       "startTime": "2025-08-27T16:00:00Z",
       "endTime": "2025-08-27T17:00:00Z",
       "relatedType": "chore",
@@ -43,7 +46,12 @@
       "title": "House Dinner",
       "description": "Shared meal at 8pm",
       "createdBy": "4",
-      "participants": ["1", "2", "3", "4"],
+      "participants": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
       "startTime": "2025-08-29T20:00:00Z",
       "endTime": "2025-08-29T22:00:00Z",
       "relatedType": "general",
@@ -54,7 +62,11 @@
       "title": "Movie Night",
       "description": "Watching a movie in the living room",
       "createdBy": "1",
-      "participants": ["1", "2", "3"],
+      "participants": [
+        "1",
+        "2",
+        "3"
+      ],
       "startTime": "2025-09-02T19:00:00Z",
       "endTime": "2025-09-02T21:00:00Z",
       "relatedType": "social",
@@ -65,11 +77,19 @@
       "title": "Lawn Mowing",
       "description": "Mow the front and back lawns",
       "createdBy": "2",
-      "participants": ["2"],
+      "participants": [
+        "2"
+      ],
       "startTime": "2025-09-05T10:00:00Z",
       "endTime": "2025-09-05T11:30:00Z",
       "relatedType": "chore",
       "relatedId": "103"
+    },
+    {
+      "id": "6d65",
+      "title": "Hosting Familly",
+      "assignedTo": "1",
+      "date": "2025-09-06"
     }
   ],
   "groceries": [
@@ -169,8 +189,8 @@
       "id": "4",
       "title": "Take out trash",
       "assignedTo": "3",
-      "completed": false,
-      "status": "Pending",
+      "completed": true,
+      "status": "Done",
       "dueDate": "2025-08-28T00:00:00Z",
       "createdAt": "2025-08-25T09:30:00Z"
     },
@@ -263,6 +283,38 @@
       "status": "In-Progress",
       "dueDate": "2025-08-27T14:00:00Z",
       "createdAt": "2025-08-24T11:00:00Z"
+    },
+    {
+      "id": "bbbd",
+      "title": "Cleaning the bathroom",
+      "assignedTo": 2,
+      "dueDate": "2025-09-04",
+      "status": "pending",
+      "completed": false
+    },
+    {
+      "id": "88d6",
+      "title": "Clean bathroom",
+      "assignedTo": 2,
+      "dueDate": "2025-09-03",
+      "status": "pending",
+      "completed": false
+    },
+    {
+      "id": "06b0",
+      "title": "testing",
+      "roommateId": "1",
+      "dueDate": "2025-09-02",
+      "completed": true,
+      "status": "Done"
+    },
+    {
+      "id": "0207",
+      "title": "testing",
+      "roommateId": "1",
+      "dueDate": "2025-09-03",
+      "completed": true,
+      "status": "Done"
     }
   ]
 }
