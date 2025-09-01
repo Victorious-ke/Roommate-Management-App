@@ -1,30 +1,34 @@
 import { useBills } from "../context/BillsProvider";
 
-function ExpenseItem({ e, onRemove, payerName }) {
-  return (
-    <li>
-      <strong>{e.title}</strong> — {e.amount.toFixed(2)} paid by {payerName} on {e.date}
-      <button onClick={() => onRemove(e.id)}>Delete</button>
-    </li>
-  );
-}
-
 export default function ExpenseList() {
-  const { expenses, roommates, removeExpense } = useBills();
-  const nameOf = (id) => roommates.find((r) => r.id === id)?.name ?? "Unknown";
+  const { expenses, roommates } = useBills();
 
-  if (expenses.length === 0) return <p>No expenses yet.</p>;
+  function getRoommateName(id) {
+    return roommates.find((r) => r.id === id)?.name || "Unknown";
+  }
+
+  if (expenses.length === 0) {
+    return <p className="empty">No expenses yet.</p>;
+  }
 
   return (
-    <ul>
-      {expenses.map((e) => (
-        <ExpenseItem
-          key={e.id}
-          e={e}
-          payerName={nameOf(e.paidBy)}
-          onRemove={removeExpense}
-        />
-      ))}
-    </ul>
+    <div className="card">
+      <h2 className="card-title">All Expenses</h2>
+      <ul className="list">
+        {expenses.map((e) => (
+          <li key={e.id} className="list-item">
+            <div className="list-info">
+              <span className="expense-title">{e.title}</span>
+              <span className="expense-amount">KES {e.amount.toFixed(2)}</span>
+            </div>
+            <div className="list-meta">
+              <span>Paid by: {getRoommateName(e.paidBy)}</span>
+              <span>{e.date}</span>
+            </div>
+            {e.notes && <p className="expense-notes">{e.notes}</p>}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
