@@ -8,16 +8,31 @@ GET /roommates: To show the list of roommates. */
 Renders when the route is /.
 It might have some simple children of its own, but for this project, it can be a standalone component. */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Home = ({ chores, roommates }) => {
-  // Filter for pending chores and get the count
   const pendingChores = chores.filter(chore => chore.status === "Pending").length;
-  // Get the total number of roommates
   const totalRoommates = roommates.length;
+  const [theme, setTheme] = useState('light');
+
+  const toggleTheme = () => {
+    setTheme(currentTheme => (currentTheme === 'light' ? 'dark' : 'light'));
+  };
+
+  useEffect(() => {
+    document.body.dataset.theme = theme;
+  }, [theme]);
 
   return (
     <div>
+      {/* Theme Toggle Button */}
+      <div className="theme-toggle-container">
+        <label className="theme-toggle-switch">
+          <input type="checkbox" onChange={toggleTheme} checked={theme === 'dark'} />
+          <span className="slider"></span>
+        </label>
+        <span>{theme === 'dark' ? 'Dark Theme' : 'Light Theme'}</span>
+      </div>
       <h2 className="page-title">Dashboard</h2>
       <div className="dashboard-grid">
         <div className="dashboard-card">
