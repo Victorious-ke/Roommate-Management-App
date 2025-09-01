@@ -1,84 +1,141 @@
-import React, { useEffect, useState } from "react";
-import FullCalendar from "@fullcalendar/react";   // Main calendar component
-import dayGridPlugin from "@fullcalendar/daygrid"; // Month view
-import interactionPlugin from "@fullcalendar/interaction"; // Date/event click
-import CalendarModal from "../components/CalendarModal";   // Our popup modal
-export default function Calendar() {
-  // Store events fetched from the backend
-  const [events, setEvents] = useState([]);
-// Track modal state
-  const [selectedEvent, setSelectedEvent] = useState(null); // clicked event
-  const [selectedDate, setSelectedDate] = useState(null);   // clicked date
-  const [isModalOpen, setIsModalOpen] = useState(false);    // modal toggle
-// 🔹 Fetch all events from db.json (via json-server)
-  const fetchEvents = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/events");
-      const data = await res.json();
-      // Convert backend data into FullCalendar format
-      const formatted = data.map((ev) => ({
-        id: ev.id,
-        title: ev.title,
-        description: ev.description,
-        start: ev.startTime,
-        end: ev.endTime,
-        relatedChoreId: ev.relatedChoreId || null,
-        relatedBillId: ev.relatedBillId || null,
-      }));
+import React, { useState, useEffect } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import { format } from "date-fns";
 
-      setEvents(formatted);
-    } catch (err) {
-      console.error(" Failed to fetch events:", err);
-    }
-  };
-  // Load events on first render
+function CalendarPage() {
+  const [events, setEvents] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [newEvent, setNewEvent] = useState({
+    title: "",
+    description: "",
+    startTime: "",
+    endTime: "",
+  });
+
+  // Load events
   useEffect(() => {
-    fetchEvents();
+    fetch("http://localhost:3000/events")
+      .then((res) => res.json())
+      .then((data) => setEvents(data))
+      .catch((err) => console.error("Error fetching events:", err));
   }, []);
 
-  // 🔹 Handle clicking an existing event
-  const handleEventClick = (info) => {
-    const clicked = events.find((ev) => ev.id.toString() === info.event.id);
-    setSelectedEvent(clicked);
-    setIsModalOpen(true);
+  // Handle form changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewEvent((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 🔹 Handle clicking an empty date
-  const handleDateClick = (info) => {
-    setSelectedDate(info.dateStr); // ISO string like "2025-09-01"
-    setSelectedEvent(null);        // Clear selected event
-    setIsModalOpen(true);
+  // Handle new event submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const eventToAdd = {
+      id: String(Date.now()), // quick unique id
+      title: newEvent.title,
+      description: newEvent.description,
+      startTime: newEvent.startTime,
+      endTime: newEvent.endTime,
+      createdBy: "1",
+      participants: ["1"],
+      relatedType: "chore",
+      relatedId: "101",
+    };
+
+    fetch("http://localhost:3000/events", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(eventToAdd),
+    })
+      .then((res) => res.json())
+      .then((savedEvent) => {
+        setEvents((prev) => [...prev, savedEvent]);
+        setNewEvent({ title: "", description: "", startTime: "", endTime: "" });
+      })
+      .catch((err) => console.error("Error adding event:", err));
   };
-  // 🔹 Close modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedEvent(null);
-    setSelectedDate(null);
-  };
+
+  // Filter events for selected date
+  const filteredEvents = events.filter((event) => {
+    const eventDate = new Date(event.startTime);
+    if (isNaN(eventDate)) return false;
+    return (
+      format(eventDate, "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd")
+    );
+  });
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Roommate Calendar</h1>
+    <div style={{ padding: "1rem" }}>
+      <h2>Calendar</h2>
 
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"      // Default view = month
-        events={events}                  // Events loaded from backend
-        eventClick={handleEventClick}    // When an event is clicked
-        dateClick={handleDateClick}      // When a day is clicked
-        height="80vh"                    // Take most of the screen
-      />
+      {/* Calendar viewer */}
+      <Calendar value={selectedDate} onChange={setSelectedDate} />
 
-      {/* Popup Modal for add/edit/delete */}
-      {isModalOpen && (
-        <CalendarModal
-          event={selectedEvent}
-          date={selectedDate}
-          onClose={closeModal}
-          refreshEvents={fetchEvents} // Reload events after changes
-        />
-      )}
+      {/* Event list */}
+      <div style={{ marginTop: "1rem" }}>
+        <h3>Events on {format(selectedDate, "PPP")}:</h3>
+        {filteredEvents.length > 0 ? (
+          filteredEvents.map((event) => (
+            <div key={event.id} style={{ marginBottom: "0.5rem" }}>
+              <strong>{event.title}</strong> <br />
+              {format(new Date(event.startTime), "p")} –{" "}
+              {format(new Date(event.endTime), "p")}
+              <p>{event.description}</p>
+            </div>
+          ))
+        ) : (
+          <p>No events for this day.</p>
+        )}
+      </div>
+
+      {/* Add event form */}
+      <div style={{ marginTop: "2rem" }}>
+        <h3>Add New Event</h3>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="title"
+            placeholder="Event title"
+            value={newEvent.title}
+            onChange={handleChange}
+            required
+          />
+          <br />
+          <textarea
+            name="description"
+            placeholder="Event description"
+            value={newEvent.description}
+            onChange={handleChange}
+          />
+          <br />
+          <label>
+            Start Time:
+            <input
+              type="datetime-local"
+              name="startTime"
+              value={newEvent.startTime}
+              onChange={handleChange}
+              required
+            />
+          </label>
+          <br />
+          <label>
+            End Time:
+            <input
+              type="datetime-local"
+              name="endTime"
+              value={newEvent.endTime}
+              onChange={handleChange}
+              required
+            />
+          </label>
+          <br />
+          <button type="submit">Add Event</button>
+        </form>
+      </div>
     </div>
   );
 }
 
+export default CalendarPage;
