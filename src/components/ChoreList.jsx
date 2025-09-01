@@ -1,3 +1,31 @@
+import React from 'react';
+import ChoreItem from './ChoreItem';
+
+const ChoreList = ({ chores, roommates, onToggleStatus }) => {
+  return (
+    <div className="chore-list-container">
+      {chores.map(chore => (
+        <ChoreItem
+          key={chore.id}
+          chore={chore}
+          roommates={roommates}
+          onToggleStatus={onToggleStatus}
+        />
+      ))}
+    </div>
+  );
+};
+
+export default ChoreList;
+
+
+
+
+
+
+
+/** This component receives the chores and roommates data from App.jsx and maps over the chores array. 
+ * For each chore, it renders a ChoreItem component. */
 /** Purpose: This component will fetch and display all the chore data. It will iterate 
  * through the list of chores and render a separate ChoreItem component for each one, passing the chore data down as props. */
 /** Database Interaction:
@@ -9,29 +37,6 @@ You will fetch all roommates and then use the assignedTo ID from a chore to find
 Renders when the route is /chores.
 It is the parent to ChoreItem.
 It makes the GET request for all chores and maps over the data to render a list of ChoreItem components.
+This component is a "presentational" or "dumb" component. Its job is simply to take a list of chores and 
+roommates as props and display them. It doesn't manage any state or logic itself. This makes it highly reusable. 
  */
-
-import React from 'react';
-import { Link } from 'react-router-dom';
-import ChoreItem from './ChoreItem';
-
-const ChoreList = ({ chores, roommates }) => {
-  return (
-    <div>
-      <h2 className="page-title">Chores</h2>
-      <Link to="/chores/new" className="chore-form-link">Add New Chore</Link>
-      <ul className="chore-list">
-        {chores.map(chore => (
-          <ChoreItem key={chore.id} chore={chore} roommates={roommates} />
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-export default ChoreList;
-
-
-
-/** This component receives the chores and roommates data from App.jsx and maps over the chores array. 
- * For each chore, it renders a ChoreItem component. */
