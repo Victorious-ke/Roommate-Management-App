@@ -6,6 +6,8 @@ import AddExpense from "./pages/AddExpense";
 import Summary from "./pages/Summary";
 import Expenses from "./pages/Expenses";
 import NotFound from "./pages/NotFound";
+import "./App.css";
+
 
 export default function App() {
   return (
