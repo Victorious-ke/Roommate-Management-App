@@ -1,0 +1,105 @@
+/* Global reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f7f8fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Navbar */
+nav.navbar {
+  background-color: #4a90e2;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+nav.navbar h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+nav.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+nav.navbar ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+nav.navbar ul li a:hover {
+  color: #dbeafe;
+}
+
+/* Page container */
+main {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Card style (for forms, lists, summaries) */
+.card {
+  background: white;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Buttons */
+button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background-color: #357abd;
+}
+
+/* Forms */
+form input,
+form select {
+  padding: 0.6rem;
+  margin: 0.5rem 0;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+form input:focus,
+form select:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
+/* Expense list */
+.expense-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.expense-item:last-child {
+  border-bottom: none;
+}
