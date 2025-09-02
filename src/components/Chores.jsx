@@ -1,7 +1,8 @@
+// Chores.jsx
 import React, { useState, useEffect } from 'react';
 import ChoreItem from './ChoreItem';
 
-const Chores = ({ chores, roommates, onAddChore, onToggleStatus }) => {
+const Chores = ({ chores, roommates, onAddChore, onToggleStatus, onDeleteChore }) => {
   const [newChoreData, setNewChoreData] = useState({
     title: '',
     roommateId: '',
@@ -74,9 +75,16 @@ const Chores = ({ chores, roommates, onAddChore, onToggleStatus }) => {
                   <p>Due Date: {chore.dueDate}</p>
                   <p>Status: <strong>{chore.completed ? 'Done' : 'Pending'}</strong></p>
                 </div>
-                <button onClick={() => onToggleStatus(chore.id, !chore.completed)}>
-                  {chore.completed ? 'Undo' : 'Complete'}
-                </button>
+                {chore.completed ? (
+                  // Display both "Undo" and "Delete" buttons for completed chores
+                  <div>
+                    <button onClick={() => onToggleStatus(chore.id, false)}>Undo</button>
+                    <button onClick={() => onDeleteChore(chore.id)}>Delete</button>
+                  </div>
+                ) : (
+                  // Display only "Complete" button for pending chores
+                  <button onClick={() => onToggleStatus(chore.id, true)}>Complete</button>
+                )}
               </li>
             );
           })

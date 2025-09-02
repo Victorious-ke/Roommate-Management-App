@@ -15,6 +15,12 @@ function App() {
   const [events, setEvents] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState(null);
   const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+  const [theme, setTheme] = useState('light');
+
+  const toggleTheme = () => {
+  setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+};
+  
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -42,6 +48,10 @@ function App() {
     };
     fetchAllData();
   }, [API_BASE_URL]);
+
+  useEffect(() => {
+  document.body.setAttribute('data-theme', theme);
+}, [theme]);
 
   const handleAddChore = async (newChore) => {
     try {
@@ -86,23 +96,38 @@ function App() {
     }
   };
 
-  const handleAddRoommate = async (newRoommate) => {
+  const handleDeleteChore = async (id) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/roommates`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newRoommate),
+      const response = await fetch(`${API_BASE_URL}/chores/${id}`, {
+        method: 'DELETE',
       });
       if (response.ok) {
-        const addedRoommate = await response.json();
-        setRoommates(prevRoommates => [...prevRoommates, addedRoommate]);
+        setChores(prevChores => prevChores.filter(chore => chore.id !== id));
       } else {
-        throw new Error('Failed to add roommate.');
+        throw new Error('Failed to delete chore.');
       }
     } catch (error) {
-      console.error("Error adding roommate:", error);
+      console.error("Error deleting chore:", error);
     }
   };
+
+  const handleAddRoommate = async (newRoommate) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/roommates`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newRoommate),
+    });
+    if (response.ok) {
+      const addedRoommate = await response.json();
+      setRoommates(prevRoommates => [...prevRoommates, addedRoommate]);
+    } else {
+      throw new Error('Failed to add roommate.');
+    }
+  } catch (error) {
+    console.error("Error adding roommate:", error);
+  }
+};
 
   const handleDeleteRoommate = async (id) => {
     try {
@@ -169,11 +194,11 @@ function App() {
       <div className="app-layout">
         <SideBar chores={chores} />
         <main className="main-content">
-          <NavBar user={loggedInUser} onLogout={handleLogout} />
+          <NavBar user={loggedInUser} onLogout={handleLogout} toggleTheme={toggleTheme} />
           <div className="page-container">
             <Routes>
               <Route path="/" element={<Home chores={chores} roommates={roommates} events={events} />} />
-              <Route path="/chores" element={<Chores chores={chores} roommates={roommates} onToggleStatus={handleToggleStatus} onAddChore={handleAddChore} />} />
+              <Route path="/chores" element={<Chores chores={chores} roommates={roommates} onToggleStatus={handleToggleStatus} onAddChore={handleAddChore} onDeleteChore={handleDeleteChore} />} />
               <Route path="/roommates" element={<RoomMates roommates={roommates} onAddRoommate={handleAddRoommate} onDeleteRoommate={handleDeleteRoommate} />} />
               <Route path="/events" element={<Events events={events} roommates={roommates} onAddEvent={handleAddEvent} onDeleteEvent={handleDeleteEvent} />} />
             </Routes>

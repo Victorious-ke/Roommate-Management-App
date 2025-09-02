@@ -18,9 +18,9 @@
 
 /* Dark Theme Colors */
 [data-theme="dark"] {
-  --text-primary: #f5f5f5;
-  --text-secondary: #111;
-  --bg-primary: #222831; /* New background color for the main content */
+  --text-primary: #FAFAFA;
+  --text-secondary: #E8E8E8;
+  --bg-primary: #121212; 
   --bg-secondary: #252525; /* Slightly lighter card background */
   --border-color: #444;
   --chore-item-border: var(--border-color);
@@ -417,4 +417,13 @@ input:checked + .slider:before {
   margin-bottom: 8px;
   font-weight: 600;
   color: var(--text-primary);
+}
+
+/* ===================== roommate avator ===================== */
+.roommate-avatar {
+  width: 50px;     
+  height: 50px;    
+  border-radius: 50%; 
+  object-fit: cover; 
+  margin-right: 15px;
 }

@@ -4,7 +4,7 @@
       "id": "1",
       "name": "Beatrice Wambui",
       "email": "bea@example.com",
-      "avatar": "/bea.png"
+      "avatar": "https://sdmntprpolandcentral.oaiusercontent.com/files/00000000-442c-620a-b87c-9d073a3d7a3e/raw?se=2025-09-02T11%3A03%3A39Z&sp=r&sv=2024-08-04&sr=b&scid=1eba1c85-b17e-5111-bbe8-5c2c44bf8ec2&skoid=82a3371f-2f6c-4f81-8a78-2701b362559b&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-09-02T05%3A20%3A11Z&ske=2025-09-03T05%3A20%3A11Z&sks=b&skv=2024-08-04&sig=umxurf3csUH24gpLn6kXctoKjTVw3YteUnsmcmYXYiU%3D"
     },
     {
       "id": "2",
@@ -23,6 +23,18 @@
       "name": "Victorious Ngaruiya",
       "email": "vic@example.com",
       "avatar": "/vic.png"
+    },
+    {
+      "id": "149f",
+      "name": "Nancy Umutoniwase",
+      "email": "nancy@example.com",
+      "avatar": "/nancy.png"
+    },
+    {
+      "id": "d4b2",
+      "name": "testing",
+      "email": "testing@example.com",
+      "avatar": "https://img.favpng.com/17/0/10/flat-design-vector-graphics-test-portable-network-graphics-png-favpng-51KGUKYzw0m5DdgaPMPR7M8Qa.jpg"
     }
   ],
   "events": [
@@ -156,8 +168,8 @@
       "id": "1",
       "title": "Clean the living room",
       "assignedTo": "1",
-      "completed": false,
-      "status": "Pending",
+      "completed": true,
+      "status": "Done",
       "dueDate": "2025-08-30T00:00:00Z",
       "createdAt": "2025-08-25T09:30:00Z"
     },
@@ -295,20 +307,12 @@
       "completed": false
     },
     {
-      "id": "06b0",
-      "title": "testing",
-      "roommateId": "1",
-      "dueDate": "2025-09-02",
-      "completed": true,
-      "status": "Done"
-    },
-    {
-      "id": "0207",
+      "id": "2352",
       "title": "testing",
       "roommateId": "1",
       "dueDate": "2025-09-03",
-      "completed": true,
-      "status": "Done"
+      "completed": false,
+      "status": "Pending"
     }
   ]
 }
