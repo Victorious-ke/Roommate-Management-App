@@ -87,7 +87,8 @@ export default ChoreForm;
 
 
 
-/** Purpose: This controlled form will gather user input, create a new chore object, and send it to your json-server. It will also need to handle the state update in your parent component (App.jsx) to re-render 
+/** Purpose: This controlled form will gather user input, create a new chore object, and send it to your json-server. 
+ * It will also need to handle the state update in your parent component (App.jsx) to re-render 
  * the list of chores with the newly added one. */
 /** Database Interaction:
 POST /chores: This is the main purpose of this component. When a user fills out and submits the form, you will make a 
