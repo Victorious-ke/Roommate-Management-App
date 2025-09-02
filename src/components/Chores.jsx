@@ -1,124 +1,90 @@
 import React, { useState, useEffect } from 'react';
-import ChoreList from './ChoreList';
-import ChoreForm from './ChoreForm';
-import { Routes, Route } from 'react-router-dom';
+import ChoreItem from './ChoreItem';
 
-const Chores = () => {
-  const [chores, setChores] = useState([]);
-  const [roommates, setRoommates] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const Chores = ({ chores, roommates, onAddChore, onToggleStatus }) => {
+  const [newChoreData, setNewChoreData] = useState({
+    title: '',
+    roommateId: '',
+    dueDate: ''
+  });
 
-  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
-
-  useEffect(() => {
-    const fetchChoresAndRoommates = async () => {
-      try {
-        const [choresResponse, roommatesResponse] = await Promise.all([
-          fetch(`${API_BASE_URL}/chores`),
-          fetch(`${API_BASE_URL}/roommates`),
-        ]);
-
-        if (!choresResponse.ok) {
-          throw new Error(`Failed to fetch chores: ${choresResponse.status}`);
-        }
-        if (!roommatesResponse.ok) {
-          throw new Error(`Failed to fetch roommates: ${roommatesResponse.status}`);
-        }
-
-        const choresData = await choresResponse.json();
-        const roommatesData = await roommatesResponse.json();
-
-        setChores(choresData);
-        setRoommates(roommatesData);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-        setError("Failed to load data. Please check if the JSON Server is running.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchChoresAndRoommates();
-  }, []);
-
-  const handleToggleStatus = async (id, newStatus) => {
-    try {
-      const choreToUpdate = chores.find(chore => chore.id === id);
-      if (!choreToUpdate) return;
-
-      const updatedChore = { ...choreToUpdate, completed: newStatus, status: newStatus ? "Done" : "Pending" };
-
-      const response = await fetch(`${API_BASE_URL}/chores/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedChore),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to update chore status on the server.');
-      }
-
-      const updatedChoreData = await response.json();
-      setChores(prevChores =>
-        prevChores.map(chore =>
-          chore.id === id ? updatedChoreData : chore
-        )
-      );
-    } catch (err) {
-      console.error("Error updating chore:", err);
-      setError("Failed to update chore status.");
-    }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewChoreData(prevData => ({ ...prevData, [name]: value }));
   };
 
-  const handleAddChore = async (newChore) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/chores`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ...newChore, completed: false, status: 'Pending' }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to add chore on the server.');
-      }
-
-      const addedChore = await response.json();
-      setChores(prevChores => [...prevChores, addedChore]);
-    } catch (err) {
-      console.error("Error adding chore:", err);
-      setError("Failed to add chore.");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!newChoreData.title || !newChoreData.roommateId || !newChoreData.dueDate) {
+      console.error('Please fill out all fields for the chore.');
+      return;
     }
+    onAddChore(newChoreData);
+    setNewChoreData({ title: '', roommateId: '', dueDate: '' });
   };
 
-  if (loading) {
-    return <div className="loading-container">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="error-container">{error}</div>;
+  if (!chores || !Array.isArray(chores)) {
+    return <div className="page-container">No chores found.</div>;
   }
 
   return (
-    <Routes>
-      <Route path="/" element={
-        <ChoreList
-          chores={chores}
-          roommates={roommates}
-          onToggleStatus={handleToggleStatus}
+    <div className="page-container">
+      <h2 className="page-title">Chores</h2>
+      <form onSubmit={handleSubmit} className="chore-form">
+        <input
+          type="text"
+          name="title"
+          value={newChoreData.title}
+          onChange={handleChange}
+          placeholder="Chore Title"
+          required
         />
-      } />
-      <Route path="new" element={
-        <ChoreForm
-          roommates={roommates}
-          onAddChore={handleAddChore}
+        <select
+          name="roommateId"
+          value={newChoreData.roommateId}
+          onChange={handleChange}
+          required
+        >
+          <option value="">Select a Roommate</option>
+          {roommates.map(roommate => (
+            <option key={roommate.id} value={roommate.id}>
+              {roommate.name}
+            </option>
+          ))}
+        </select>
+        <input
+          type="date"
+          name="dueDate"
+          value={newChoreData.dueDate}
+          onChange={handleChange}
+          required
         />
-      } />
-    </Routes>
+        <button type="submit">Add Chore</button>
+      </form>
+      <ul className="chore-list-container">
+        {chores.length > 0 ? (
+          chores.map(chore => {
+            const assignedRoommate = roommates.find(r => r.id === chore.roommateId);
+            const assignedName = assignedRoommate ? assignedRoommate.name : 'Unassigned';
+            return (
+              <li key={chore.id} className={`chore-item ${chore.completed ? 'chore-completed' : ''}`}>
+                <div>
+                  <h3>{chore.title}</h3>
+                  <p>Assigned to: <strong>{assignedName}</strong></p>
+                  <p>Due Date: {chore.dueDate}</p>
+                  <p>Status: <strong>{chore.completed ? 'Done' : 'Pending'}</strong></p>
+                </div>
+                <button onClick={() => onToggleStatus(chore.id, !chore.completed)}>
+                  {chore.completed ? 'Undo' : 'Complete'}
+                </button>
+              </li>
+            );
+          })
+        ) : (
+          <p>There are no chores scheduled.</p>
+        )}
+      </ul>
+    </div>
   );
 };
 
