@@ -4,57 +4,37 @@
       "id": "1",
       "name": "Beatrice Wambui",
       "email": "bea@example.com",
-      "avatar": "https://example.com/avatars/bea.png"
+      "avatar": "https://sdmntprpolandcentral.oaiusercontent.com/files/00000000-442c-620a-b87c-9d073a3d7a3e/raw?se=2025-09-02T11%3A03%3A39Z&sp=r&sv=2024-08-04&sr=b&scid=1eba1c85-b17e-5111-bbe8-5c2c44bf8ec2&skoid=82a3371f-2f6c-4f81-8a78-2701b362559b&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-09-02T05%3A20%3A11Z&ske=2025-09-03T05%3A20%3A11Z&sks=b&skv=2024-08-04&sig=umxurf3csUH24gpLn6kXctoKjTVw3YteUnsmcmYXYiU%3D"
     },
     {
       "id": "2",
       "name": "Praxcedes Kabeya",
       "email": "prax@example.com",
-      "avatar": "https://example.com/avatars/prax.png"
+      "avatar": "/prax.png"
     },
     {
       "id": "3",
       "name": "Laban Mugutu",
       "email": "laban@example.com",
-      "avatar": "https://example.com/avatars/laban.png"
+      "avatar": "/laban.png"
     },
     {
       "id": "4",
       "name": "Victorious Ngaruiya",
       "email": "vic@example.com",
-      "avatar": "https://example.com/avatars/vic.png"
-    }
-  ],
-  "bills": [
-    {
-      "id": "201",
-      "title": "Electricity Bill",
-      "amount": 3000,
-      "currency": "KES",
-      "splitType": "percentage",
-      "splits": [
-        { "userId": "1", "share": 50 },
-        { "userId": "2", "share": 50 }
-      ],
-      "dueDate": "2025-08-30T23:59:00Z",
-      "status": "unpaid",
-      "createdAt": "2025-08-25T09:30:00Z"
+      "avatar": "/vic.png"
     },
     {
-      "id": "202",
-      "title": "Internet Bill",
-      "amount": 5000,
-      "currency": "KES",
-      "splitType": "even",
-      "splits": [
-        { "userId": "1", "share": 25 },
-        { "userId": "2", "share": 25 },
-        { "userId": "3", "share": 25 },
-        { "userId": "4", "share": 25 }
-      ],
-      "dueDate": "2025-09-05T23:59:00Z",
-      "status": "unpaid",
-      "createdAt": "2025-08-25T09:45:00Z"
+      "id": "149f",
+      "name": "Nancy Umutoniwase",
+      "email": "nancy@example.com",
+      "avatar": "/nancy.png"
+    },
+    {
+      "id": "d4b2",
+      "name": "testing",
+      "email": "testing@example.com",
+      "avatar": "https://img.favpng.com/17/0/10/flat-design-vector-graphics-test-portable-network-graphics-png-favpng-51KGUKYzw0m5DdgaPMPR7M8Qa.jpg"
     }
   ],
   "events": [
@@ -63,7 +43,11 @@
       "title": "Grocery Shopping",
       "description": "Buy food for the week",
       "createdBy": "3",
-      "participants": ["1", "2", "3"],
+      "participants": [
+        "1",
+        "2",
+        "3"
+      ],
       "startTime": "2025-08-27T16:00:00Z",
       "endTime": "2025-08-27T17:00:00Z",
       "relatedType": "chore",
@@ -74,34 +58,44 @@
       "title": "House Dinner",
       "description": "Shared meal at 8pm",
       "createdBy": "4",
-      "participants": ["1", "2", "3", "4"],
+      "participants": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
       "startTime": "2025-08-29T20:00:00Z",
       "endTime": "2025-08-29T22:00:00Z",
       "relatedType": "general",
       "relatedId": null
-    }
-  ],
-  "notifications": [
-    {
-      "id": "401",
-      "type": "reminder",
-      "message": "Chore 'Wash dishes' is due today",
-      "userId": "1",
-      "relatedType": "chore",
-      "relatedId": "101",
-      "status": "unread",
-      "createdAt": "2025-08-28T08:00:00Z",
-      "triggerEvent": "chore:due"
     },
     {
-      "id": "402",
-      "type": "info",
-      "message": "Electricity Bill added by Praxcedes",
-      "userId": "2",
-      "relatedType": "bill",
-      "relatedId": "201",
-      "status": "unread",
-      "createdAt": "2025-08-25T11:00:00Z"
+      "id": "303",
+      "title": "Movie Night",
+      "description": "Watching a movie in the living room",
+      "createdBy": "1",
+      "participants": [
+        "1",
+        "2",
+        "3"
+      ],
+      "startTime": "2025-09-02T19:00:00Z",
+      "endTime": "2025-09-02T21:00:00Z",
+      "relatedType": "social",
+      "relatedId": null
+    },
+    {
+      "id": "304",
+      "title": "Lawn Mowing",
+      "description": "Mow the front and back lawns",
+      "createdBy": "2",
+      "participants": [
+        "2"
+      ],
+      "startTime": "2025-09-05T10:00:00Z",
+      "endTime": "2025-09-05T11:30:00Z",
+      "relatedType": "chore",
+      "relatedId": "103"
     }
   ],
   "groceries": [
@@ -132,6 +126,41 @@
       "quantity": "3kg",
       "purchased": true,
       "addedBy": "1"
+    },
+    {
+      "id": "505",
+      "name": "Apples",
+      "quantity": "6 pcs",
+      "purchased": false,
+      "addedBy": "4"
+    },
+    {
+      "id": "505",
+      "name": "Coffee Beans",
+      "quantity": "500g",
+      "purchased": false,
+      "addedBy": "4"
+    },
+    {
+      "id": "506",
+      "name": "Oranges",
+      "quantity": "6 pcs",
+      "purchased": false,
+      "addedBy": "1"
+    },
+    {
+      "id": "507",
+      "name": "Pasta",
+      "quantity": "1 box",
+      "purchased": true,
+      "addedBy": "2"
+    },
+    {
+      "id": "508",
+      "name": "Toilet Paper",
+      "quantity": "12 rolls",
+      "purchased": false,
+      "addedBy": "3"
     }
   ],
   "chores": [
@@ -148,8 +177,8 @@
       "id": "2",
       "title": "Pay electricity bill",
       "assignedTo": "2",
-      "completed": true,
-      "status": "Done",
+      "completed": false,
+      "status": "Pending",
       "dueDate": "2025-08-29T00:00:00Z",
       "createdAt": "2025-08-25T09:30:00Z"
     },
@@ -166,8 +195,8 @@
       "id": "4",
       "title": "Take out trash",
       "assignedTo": "3",
-      "completed": false,
-      "status": "Pending",
+      "completed": true,
+      "status": "Done",
       "dueDate": "2025-08-28T00:00:00Z",
       "createdAt": "2025-08-25T09:30:00Z"
     },
@@ -260,6 +289,30 @@
       "status": "In-Progress",
       "dueDate": "2025-08-27T14:00:00Z",
       "createdAt": "2025-08-24T11:00:00Z"
+    },
+    {
+      "id": "bbbd",
+      "title": "Cleaning the bathroom",
+      "assignedTo": 2,
+      "dueDate": "2025-09-04",
+      "status": "pending",
+      "completed": false
+    },
+    {
+      "id": "88d6",
+      "title": "Clean bathroom",
+      "assignedTo": 2,
+      "dueDate": "2025-09-03",
+      "status": "pending",
+      "completed": false
+    },
+    {
+      "id": "2352",
+      "title": "testing",
+      "roommateId": "1",
+      "dueDate": "2025-09-03",
+      "completed": false,
+      "status": "Pending"
     }
   ]
 }
