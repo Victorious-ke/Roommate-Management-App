@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
-import ChoreList from './components/ChoreList';
-import ChoreForm from './components/ChoreForm';
+import Chores from './components/Chores';
 import RoomMates from './components/RoomMates';
 import Events from './components/Events';
 import SideBar from './components/SideBar';
@@ -174,8 +173,7 @@ function App() {
           <div className="page-container">
             <Routes>
               <Route path="/" element={<Home chores={chores} roommates={roommates} events={events} />} />
-              <Route path="/chores" element={<ChoreList chores={chores} roommates={roommates} onToggleStatus={handleToggleStatus} />} />
-              <Route path="/chores/new" element={<ChoreForm roommates={roommates} onAddChore={handleAddChore} />} />
+              <Route path="/chores" element={<Chores chores={chores} roommates={roommates} onToggleStatus={handleToggleStatus} onAddChore={handleAddChore} />} />
               <Route path="/roommates" element={<RoomMates roommates={roommates} onAddRoommate={handleAddRoommate} onDeleteRoommate={handleDeleteRoommate} />} />
               <Route path="/events" element={<Events events={events} roommates={roommates} onAddEvent={handleAddEvent} onDeleteEvent={handleDeleteEvent} />} />
             </Routes>
