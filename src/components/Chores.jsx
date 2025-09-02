@@ -1,4 +1,3 @@
-// Chores.jsx
 import React, { useState, useEffect } from 'react';
 import ChoreItem from './ChoreItem';
 
