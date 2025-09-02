@@ -14,7 +14,6 @@ const SideBar = ({ chores }) => {
         <Link to="/chores">
           Chores <span className="chore-count">{pendingChores.length}</span>
         </Link>
-        <Link to="/chores/new">Add Chore</Link>
         <Link to="/roommates">Roommates</Link>
         <Link to="/events">Events</Link>
       </div>
